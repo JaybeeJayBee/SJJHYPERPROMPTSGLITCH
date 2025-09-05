@@ -2,12 +2,12 @@
 <html>
 <head>
     <title>SJJHyperPromptsGlitch - Prompt Processor</title>
-    <script src="amplify.min.js?v=2"></script>
+    <script src="https://unpkg.com/aws-amplify@4.5.2/dist/aws-amplify.min.js"></script>
     <style>
         body {
-            font-family: 'Press Start 2P', cursive; /* Retro gaming font */
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); /* Dark, cosmic gradient */
-            color: #00ff00; /* Classic hacker green */
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #00ff00;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -193,9 +193,17 @@
             const resultElement = document.getElementById('result');
 
             try {
-                await Amplify.Auth.signIn(email, password);
-                authStatus.textContent = "Sign-in successful!";
-                resultElement.textContent = ""; // Clear any previous result
+                const user = await Amplify.Auth.signIn(email, password);
+                
+                if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+                    const newPassword = prompt("Please enter a new password:");
+                    await Amplify.Auth.completeNewPassword(user, newPassword);
+                    authStatus.textContent = "Password changed. Sign-in successful!";
+                } else {
+                    authStatus.textContent = "Sign-in successful!";
+                }
+                
+                resultElement.textContent = "";
                 document.getElementById('auth-container').style.display = 'none';
                 document.getElementById('app-container').style.display = 'block';
             } catch (error) {
