@@ -180,20 +180,22 @@
         const amplifyConfig = {
             Auth: {
                 region: 'us-east-2',
-                userPoolId: 'us-east-2_avUUFEey1', // Corrected casing
+                userPoolId: 'us-east-2_aVuufeey1',
                 userPoolWebClientId: '480o3u2fctgn32lksl2d2l9a28',
             }
         };
-        Amplify.configure(amplifyConfig); // Corrected casing
+        Amplify.configure(amplifyConfig);
 
         async function signIn() {
-            const email = document.getElementById('emailInput').value; // Corrected casing
-            const password = document.getElementById('passwordInput').value; // Corrected casing
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
             const authStatus = document.getElementById('auth-status');
+            const resultElement = document.getElementById('result');
 
             try {
-                await Amplify.Auth.signIn(email, password); // Corrected casing
+                await Amplify.Auth.signIn(email, password);
                 authStatus.textContent = "Sign-in successful!";
+                resultElement.textContent = ""; // Clear any previous result
                 document.getElementById('auth-container').style.display = 'none';
                 document.getElementById('app-container').style.display = 'block';
             } catch (error) {
@@ -203,7 +205,7 @@
         
         async function signOut() {
             try {
-                await Amplify.Auth.signOut(); // Corrected casing
+                await Amplify.Auth.signOut();
                 document.getElementById('auth-container').style.display = 'block';
                 document.getElementById('app-container').style.display = 'none';
                 document.getElementById('auth-status').textContent = 'You have been signed out.';
@@ -213,8 +215,8 @@
         }
         
         async function processPrompt() {
-            const fileInput = document.getElementById('promptFile'); // Corrected casing
-            const workerInput = document.getElementById('workerInput').value; // Corrected casing
+            const fileInput = document.getElementById('promptFile');
+            const workerInput = document.getElementById('workerInput').value;
             const file = fileInput.files[0];
             const resultElement = document.getElementById('result');
 
@@ -231,7 +233,7 @@
             resultElement.textContent = "Processing...";
 
             try {
-                const fileReader = new FileReader(); // Corrected casing
+                const fileReader = new FileReader();
                 fileReader.readAsDataURL(file);
                 await new Promise(resolve => fileReader.onloadend = resolve);
                 const fileContentBase64 = fileReader.result.split(',')[1];
@@ -244,10 +246,10 @@
                 const apiUrl = 'https://ae8r7cbe7h.execute-api.us-east-2.amazonaws.com/prod';
 
                 const response = await fetch(apiUrl, {
-                    method: 'POST', // Corrected casing
-                    body: JSON.stringify(requestBody), // Corrected casing
+                    method: 'POST',
+                    body: JSON.stringify(requestBody),
                     headers: {
-                        'Content-Type': 'application/json' // Corrected casing
+                        'Content-Type': 'application/json'
                     }
                 });
 
